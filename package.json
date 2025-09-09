@@ -1,0 +1,34 @@
+{
+    "name": "minimal-sql-formatter",
+    "displayName": "Minimal SQL Formatter",
+    "description": "A SQL formatter that applies very few formatting rules.",
+    "version": "0.0.5",
+    "publisher": "NateW",
+    "engines": {
+        "vscode": "^1.103.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:minimalSqlFormatter.format"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "minimalSqlFormatter.format",
+                "title": "Format SQL"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.103.0",
+        "typescript": "^5.9.2",
+        "@vscode/test-electron": "latest"
+    }
+}

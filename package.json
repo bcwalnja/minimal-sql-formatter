@@ -2,7 +2,7 @@
     "name": "minimal-sql-formatter",
     "displayName": "Minimal SQL Formatter",
     "description": "A SQL formatter that applies very few formatting rules.",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "publisher": "NateW",
     "engines": {
         "vscode": "^1.103.0"

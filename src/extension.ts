@@ -38,9 +38,25 @@ export function activate(context: vscode.ExtensionContext) {
 
     let disposable = vscode.commands.registerCommand('minimalSqlFormatter.format', () => {
         //#region Formatting functions
+        function minimumOneNewline(sql: string): string {
+            let formatted = sql;
+            for (const keyword of keywords.clauses) {
+                // get all characters that come between the keyword and the previous non-whitespace character
+                // only make edits if there are no newlines in that space
+                const regex = new RegExp(`([^\s]{2}) {0,}(${keyword})`, 'gi');
+                formatted = formatted.replace(regex, (match, p1, p2) => {
+                    if (p1.includes('\n') || p1.includes('--')) {
+                        return match; // already has a newline or is a comment
+                    } else {
+                        return p1 + '\n    ' + p2; // add a newline
+                    }
+                });
+            }
+
+            return formatted;
+        }
+
         function lowercaseKeywords(sql: string): string {
-            // get every keyword out of the keywords object
-            
             let formatted = sql;
             for (const keyword of allKeywords) {
                 // search using word boundaries to avoid partial matches
@@ -110,7 +126,8 @@ export function activate(context: vscode.ExtensionContext) {
             : new vscode.Range(
                 editor.document.positionAt(0), editor.document.positionAt(text.length)
             );
-        let formatted = lowercaseKeywords(text);
+        let formatted = minimumOneNewline(text);
+        formatted = lowercaseKeywords(formatted);
         formatted = fixCommas(formatted);
         editor.edit(editBuilder => {
             editBuilder.replace(range, formatted);

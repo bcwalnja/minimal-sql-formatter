@@ -1,0 +1,1 @@
+select string_agg(q+' ('+strColor+')',Char(13)) from(select cast(cast(round(sum(od.decQtyShipped),2) as float) as varchar) as q, isnull(ic.strColor,'No Color') as strColor from tblARInvoicedetail od inner join tblicinventory ic on ic.strproductID = od.strproductID where ic.strCategory in('panels','metal panels') and od.strordernumber =@PrimaryID group by ic.strColor) tbl
